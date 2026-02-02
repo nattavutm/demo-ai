@@ -70,6 +70,11 @@ async function handleChat(request, env, corsHeaders) {
     try {
         const response = await env.AI.run(model, {
             messages: messages
+        }, {
+            gateway: {
+                id: 'ai-demo',
+                skipCache: false
+            }
         });
 
         return Response.json(response, { headers: corsHeaders });
@@ -110,6 +115,11 @@ async function handleUpload(request, env, corsHeaders) {
         // Generate embedding using Workers AI
         const embedding = await env.AI.run('@cf/baai/bge-base-en-v1.5', {
             text: chunk
+        }, {
+            gateway: {
+                id: 'ai-demo',
+                skipCache: false
+            }
         });
 
         vectors.push({
@@ -158,6 +168,11 @@ async function handleQuery(request, env, corsHeaders) {
     // Generate embedding for query
     const queryEmbedding = await env.AI.run('@cf/baai/bge-base-en-v1.5', {
         text: query
+    }, {
+        gateway: {
+            id: 'ai-demo',
+            skipCache: false
+        }
     });
 
     // Search Vectorize for similar chunks
@@ -205,7 +220,12 @@ ${contextString}`
                 content: query
             }
         ],
-        max_tokens: 500,
+        max_tokens: 500
+    }, {
+        gateway: {
+            id: 'ai-demo',
+            skipCache: false
+        }
     });
 
     return Response.json({
