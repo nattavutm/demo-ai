@@ -15,7 +15,7 @@ const cacheValue = document.getElementById('cacheValue');
 // Mock responses for demo
 const mockResponses = [
     {
-        response: "Hello! I'm here to help you understand how Cloudflare AI Gateway works. It acts as a proxy between your application and AI providers, giving you control over caching, rate limiting, and analytics. What would you like to know more about?",
+        response: "Hello! I'm here to help you understand how Cloudflare AI Gateway works. You can select different providers like OpenAI or Workers AI from the top right to see how the gateway unifies control over multiple models.",
         latency: 245,
         tokens: 52,
         cached: false
@@ -107,8 +107,16 @@ async function sendMessage() {
     // Get mock response
     const mockData = mockResponses[responseIndex % mockResponses.length];
 
-    // Simulate variable latency based on cache status
-    const delay = mockData.cached ? 100 : Math.random() * 500 + 500;
+    // Get selected provider
+    const provider = document.getElementById('providerSelect').value;
+
+    // Simulate variable latency based on cache status and provider
+    let baseLatency = 500;
+    if (provider === 'workers-ai') baseLatency = 150; // Faster
+    if (provider === 'anthropic') baseLatency = 800; // Slower
+    if (provider === 'huggingface') baseLatency = 600;
+
+    const delay = mockData.cached ? 50 : Math.random() * 500 + baseLatency;
 
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, delay));

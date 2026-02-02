@@ -87,6 +87,17 @@
                         <span class="dot yellow"></span>
                         <span class="dot green"></span>
                         <span>AI Gateway Chat Demo</span>
+                        <div style="margin-left: auto; display: flex; align-items: center; gap: 0.5rem;">
+                            <label for="providerSelect"
+                                style="font-size: 0.75rem; color: var(--text-muted);">Provider:</label>
+                            <select id="providerSelect" class="chat-input"
+                                style="padding: 0.25rem 0.5rem; font-size: 0.75rem; height: auto; width: auto; background: rgba(0,0,0,0.2);">
+                                <option value="openai">OpenAI</option>
+                                <option value="anthropic">Anthropic</option>
+                                <option value="workers-ai">Workers AI</option>
+                                <option value="huggingface">HuggingFace</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="demo-body">
                         <div class="chat-container">
