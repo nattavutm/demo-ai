@@ -38,8 +38,23 @@
     <section class="hero">
         <div class="container">
             <h1>Auto RAG</h1>
-            <p>Automatically enhance AI responses with your own data. Build knowledge-powered applications using
-                Cloudflare Vectorize and Workers AI.</p>
+            <p>Upload your documents and ask questions. This demo uses Cloudflare Vectorize and Workers AI for real RAG.
+            </p>
+        </div>
+    </section>
+
+    <!-- API Configuration -->
+    <section class="container" style="margin-bottom: 1rem;">
+        <div class="card" style="padding: 1rem;">
+            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <label style="font-size: 0.875rem; color: var(--text-muted);">API Endpoint:</label>
+                <input type="text" id="apiEndpoint" class="chat-input" style="flex: 1; min-width: 300px;"
+                    placeholder="https://your-worker.your-subdomain.workers.dev" value="">
+                <button class="btn btn-secondary" id="testApiBtn" style="padding: 0.5rem 1rem;">
+                    Test Connection
+                </button>
+                <span id="apiStatus" style="font-size: 0.875rem;"></span>
+            </div>
         </div>
     </section>
 
@@ -111,105 +126,76 @@
     <section class="demo-section" style="padding-top: 0;">
         <div class="container">
             <div class="demo-container">
-                <!-- Documentation Panel -->
+                <!-- Knowledge Base Panel -->
                 <div class="card docs-panel">
-                    <h2>What is RAG?</h2>
-                    <p>Retrieval-Augmented Generation (RAG) enhances AI responses by retrieving relevant information
-                        from your own documents and using it as context for the AI model.</p>
+                    <h2>📚 Knowledge Base</h2>
+                    <p>Upload documents to build your knowledge base. Supported formats: .txt, .md</p>
 
-                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">How Auto RAG Works</h3>
-                    <ul class="docs-list">
-                        <li><strong>Index Documents</strong> - Upload and vectorize your documents using Cloudflare
-                            Vectorize</li>
-                        <li><strong>Query Processing</strong> - User queries are converted to embeddings</li>
-                        <li><strong>Semantic Search</strong> - Find the most relevant document chunks</li>
-                        <li><strong>Context Injection</strong> - Add retrieved context to the AI prompt</li>
-                        <li><strong>Enhanced Response</strong> - AI generates answers using your data</li>
-                    </ul>
-
-                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">Code Example</h3>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <span>JavaScript (Workers)</span>
-                            <button onclick="copyCode(this)">Copy</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code><span class="comment">// Query with RAG using Vectorize + Workers AI</span>
-<span class="keyword">export default</span> {
-  <span class="keyword">async</span> <span class="function">fetch</span>(request, env) {
-    <span class="keyword">const</span> { query } = <span class="keyword">await</span> request.<span class="function">json</span>();
-    
-    <span class="comment">// 1. Generate embedding for the query</span>
-    <span class="keyword">const</span> embedding = <span class="keyword">await</span> env.AI.<span class="function">run</span>(
-      <span class="string">'@cf/baai/bge-base-en-v1.5'</span>,
-      { <span class="property">text</span>: query }
-    );
-    
-    <span class="comment">// 2. Search for similar documents</span>
-    <span class="keyword">const</span> results = <span class="keyword">await</span> env.VECTORIZE.<span class="function">query</span>(
-      embedding.data[<span class="number">0</span>],
-      { <span class="property">topK</span>: <span class="number">3</span> }
-    );
-    
-    <span class="comment">// 3. Generate response with context</span>
-    <span class="keyword">const</span> context = results.<span class="function">map</span>(r => r.metadata.text).<span class="function">join</span>(<span class="string">'\n'</span>);
-    <span class="keyword">const</span> response = <span class="keyword">await</span> env.AI.<span class="function">run</span>(
-      <span class="string">'@cf/meta/llama-2-7b-chat-int8'</span>,
-      {
-        <span class="property">messages</span>: [
-          { <span class="property">role</span>: <span class="string">'system'</span>, <span class="property">content</span>: <span class="string">`Context: ${context}`</span> },
-          { <span class="property">role</span>: <span class="string">'user'</span>, <span class="property">content</span>: query }
-        ]
-      }
-    );
-    
-    <span class="keyword">return</span> Response.<span class="function">json</span>(response);
-  }
-};</code></pre>
+                    <!-- File Upload -->
+                    <div style="margin: 1.5rem 0;">
+                        <div id="dropZone" style="
+                border: 2px dashed var(--border-color);
+                border-radius: var(--radius-md);
+                padding: 2rem;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.2s;
+              ">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)"
+                                stroke-width="1.5" style="margin-bottom: 1rem;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="17 8 12 3 7 8" />
+                                <line x1="12" y1="3" x2="12" y2="15" />
+                            </svg>
+                            <p style="color: var(--text-muted); margin: 0;">
+                                Drag & drop files here or <span style="color: var(--cf-orange);">click to browse</span>
+                            </p>
+                            <input type="file" id="fileInput" accept=".txt,.md" multiple style="display: none;">
                         </div>
                     </div>
 
-                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">Cloudflare Stack</h3>
-                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                        <span class="btn btn-secondary"
-                            style="padding: 0.5rem 1rem; font-size: 0.875rem; cursor: default;">Vectorize</span>
-                        <span class="btn btn-secondary"
-                            style="padding: 0.5rem 1rem; font-size: 0.875rem; cursor: default;">Workers AI</span>
-                        <span class="btn btn-secondary"
-                            style="padding: 0.5rem 1rem; font-size: 0.875rem; cursor: default;">D1 Database</span>
-                        <span class="btn btn-secondary"
-                            style="padding: 0.5rem 1rem; font-size: 0.875rem; cursor: default;">R2 Storage</span>
+                    <!-- Upload Status -->
+                    <div id="uploadStatus" style="display: none; margin-bottom: 1rem;">
+                        <div class="loading">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <span style="margin-left: 0.5rem; color: var(--text-muted);">Uploading and generating
+                            embeddings...</span>
                     </div>
+
+                    <!-- Document List -->
+                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">Uploaded Documents</h3>
+                    <div id="documentList">
+                        <p style="color: var(--text-muted); font-size: 0.875rem;">No documents uploaded yet.</p>
+                    </div>
+
+                    <!-- Refresh Button -->
+                    <button class="btn btn-secondary" id="refreshDocsBtn" style="margin-top: 1rem;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M23 4v6h-6" />
+                            <path d="M1 20v-6h6" />
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+                        </svg>
+                        Refresh
+                    </button>
                 </div>
 
-                <!-- Interactive Demo Panel -->
+                <!-- Query Panel -->
                 <div class="demo-panel">
                     <div class="demo-header">
                         <span class="dot red"></span>
                         <span class="dot yellow"></span>
                         <span class="dot green"></span>
-                        <span>RAG Query Demo</span>
+                        <span>RAG Query</span>
                     </div>
                     <div class="demo-body" style="min-height: auto;">
-                        <!-- Sample Knowledge Base -->
-                        <div style="margin-bottom: 1rem;">
-                            <h4 style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">📚 Sample
-                                Knowledge Base</h4>
-                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                <span
-                                    style="padding: 0.25rem 0.75rem; background: var(--bg-glass); border: 1px solid var(--border-color); border-radius: 999px; font-size: 0.75rem; color: var(--text-secondary);">company-policies.pdf</span>
-                                <span
-                                    style="padding: 0.25rem 0.75rem; background: var(--bg-glass); border: 1px solid var(--border-color); border-radius: 999px; font-size: 0.75rem; color: var(--text-secondary);">product-docs.md</span>
-                                <span
-                                    style="padding: 0.25rem 0.75rem; background: var(--bg-glass); border: 1px solid var(--border-color); border-radius: 999px; font-size: 0.75rem; color: var(--text-secondary);">faq.txt</span>
-                            </div>
-                        </div>
-
                         <!-- Query Input -->
                         <div class="chat-input-container" style="border-top: none; padding: 0; margin-bottom: 1rem;">
                             <input type="text" class="chat-input" id="ragInput"
-                                placeholder="Ask a question about the documents..." value="What is the refund policy?"
-                                autocomplete="off">
+                                placeholder="Ask a question about your documents..." autocomplete="off">
                             <button class="btn btn-primary" id="ragQueryBtn" style="padding: 0.75rem 1.25rem;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -217,6 +203,17 @@
                                     <path d="M21 21l-4.35-4.35" />
                                 </svg>
                             </button>
+                        </div>
+
+                        <!-- Loading State -->
+                        <div id="ragLoading" style="display: none; padding: 1rem;">
+                            <div class="loading">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
+                            <span style="margin-left: 0.5rem; color: var(--text-muted);" id="loadingText">Processing
+                                query...</span>
                         </div>
 
                         <!-- Retrieved Context -->
@@ -237,15 +234,40 @@
                             </div>
                         </div>
 
-                        <!-- Loading State -->
-                        <div id="ragLoading" style="display: none;">
-                            <div class="loading">
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                            </div>
+                        <!-- Error State -->
+                        <div id="errorState"
+                            style="display: none; padding: 1rem; background: rgba(255, 0, 0, 0.1); border-radius: var(--radius-md); margin-top: 1rem;">
+                            <p style="color: #ff6b6b; margin: 0;" id="errorMessage"></p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Example -->
+    <section class="container" style="margin-top: 2rem;">
+        <div class="card">
+            <h3 style="margin-bottom: 1rem;">Code Example</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span>JavaScript (Workers)</span>
+                    <button onclick="copyCode(this)">Copy</button>
+                </div>
+                <div class="code-content">
+                    <pre><code><span class="comment">// Query the RAG API</span>
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'https://your-worker.workers.dev/api/query'</span>, {
+  <span class="property">method</span>: <span class="string">'POST'</span>,
+  <span class="property">headers</span>: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> },
+  <span class="property">body</span>: <span class="function">JSON.stringify</span>({
+    <span class="property">query</span>: <span class="string">'What is the refund policy?'</span>,
+    <span class="property">topK</span>: <span class="number">3</span>
+  })
+});
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();
+<span class="comment">// data.response - AI generated answer</span>
+<span class="comment">// data.context - Retrieved document chunks</span></code></pre>
                 </div>
             </div>
         </div>
