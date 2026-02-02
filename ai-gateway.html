@@ -62,34 +62,7 @@
                         <li><strong>Fallbacks</strong> - Automatic failover to backup providers</li>
                     </ul>
 
-                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">Code Example</h3>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <span>JavaScript</span>
-                            <button onclick="copyCode(this)">Copy</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code><span class="comment">// Using AI Gateway with OpenAI</span>
-<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(
-  <span class="string">`https://gateway.ai.cloudflare.com/v1/
-    ${<span class="property">ACCOUNT_ID</span>}/${<span class="property">GATEWAY_ID</span>}/openai/
-    chat/completions`</span>,
-  {
-    <span class="property">method</span>: <span class="string">'POST'</span>,
-    <span class="property">headers</span>: {
-      <span class="string">'Authorization'</span>: <span class="string">`Bearer ${<span class="property">OPENAI_API_KEY</span>}`</span>,
-      <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
-    },
-    <span class="property">body</span>: <span class="function">JSON.stringify</span>({
-      <span class="property">model</span>: <span class="string">'gpt-4'</span>,
-      <span class="property">messages</span>: [
-        { <span class="property">role</span>: <span class="string">'user'</span>, <span class="property">content</span>: <span class="string">'Hello!'</span> }
-      ]
-    })
-  }
-);</code></pre>
-                        </div>
-                    </div>
+
 
                     <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">Supported Providers</h3>
                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
