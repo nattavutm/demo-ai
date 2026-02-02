@@ -1,164 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Interactive demos showcasing Cloudflare AI Gateway and Auto RAG features">
-  <title>Cloudflare AI Features Demo</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive demos showcasing Cloudflare AI Gateway and Auto RAG features">
+    <title>Cloudflare AI Features Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
-  <!-- Navigation -->
-  <nav class="nav">
-    <div class="container nav-content">
-      <a href="/" class="nav-logo">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 4L4 10v12l12 6 12-6V10L16 4z" stroke="#F6821F" stroke-width="2" fill="none"/>
-          <path d="M16 10l-6 3v6l6 3 6-3v-6l-6-3z" fill="#F6821F"/>
-        </svg>
-        CF Demo
-      </a>
-      <ul class="nav-links">
-        <li><a href="/" class="active">Home</a></li>
-        <li><a href="/ai-gateway.html">AI Gateway</a></li>
-        <li><a href="/auto-rag.html">Auto RAG</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <h1>Cloudflare AI Features</h1>
-      <p>Explore interactive demos of Cloudflare's powerful AI capabilities. Learn how to integrate AI Gateway and Auto RAG into your applications.</p>
-      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-        <a href="/ai-gateway.html" class="btn btn-primary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5"/>
-            <path d="M2 12l10 5 10-5"/>
-          </svg>
-          AI Gateway
-        </a>
-        <a href="/auto-rag.html" class="btn btn-secondary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="M21 21l-4.35-4.35"/>
-          </svg>
-          Auto RAG
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Grid -->
-  <section class="container">
-    <div class="card-grid">
-      <!-- AI Gateway Card -->
-      <a href="/ai-gateway.html" class="card feature-card" style="text-decoration: none;">
-        <div class="icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5"/>
-            <path d="M2 12l10 5 10-5"/>
-          </svg>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container nav-content">
+            <a href="/" class="nav-logo">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 4L4 10v12l12 6 12-6V10L16 4z" stroke="#F6821F" stroke-width="2" fill="none" />
+                    <path d="M16 10l-6 3v6l6 3 6-3v-6l-6-3z" fill="#F6821F" />
+                </svg>
+                CF Demo
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/ai-gateway.html">AI Gateway</a></li>
+                <li><a href="/auto-rag.html">Auto RAG</a></li>
+            </ul>
         </div>
-        <h3>AI Gateway</h3>
-        <p>Control, cache, and monitor your AI applications. Get analytics, rate limiting, and cost savings for your LLM calls.</p>
-      </a>
+    </nav>
 
-      <!-- Auto RAG Card -->
-      <a href="/auto-rag.html" class="card feature-card" style="text-decoration: none;">
-        <div class="icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="M21 21l-4.35-4.35"/>
-            <path d="M11 8v6"/>
-            <path d="M8 11h6"/>
-          </svg>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Cloudflare AI Features</h1>
+            <p style="color: var(--cf-orange); font-weight: 500; margin-bottom: 1rem; margin-top: -0.5rem;">Created by
+                Bank Nattavut</p>
+            <p>Explore interactive demos of Cloudflare's powerful AI capabilities. Learn how to integrate AI Gateway and
+                Auto RAG into your applications.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="/ai-gateway.html" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                        <path d="M2 17l10 5 10-5" />
+                        <path d="M2 12l10 5 10-5" />
+                    </svg>
+                    AI Gateway
+                </a>
+                <a href="/auto-rag.html" class="btn btn-secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="M21 21l-4.35-4.35" />
+                    </svg>
+                    Auto RAG
+                </a>
+            </div>
         </div>
-        <h3>Auto RAG</h3>
-        <p>Automatically enhance AI responses with your own data. Index documents and retrieve relevant context for better answers.</p>
-      </a>
-    </div>
-  </section>
+    </section>
 
-  <!-- How It Works -->
-  <section class="demo-section">
-    <div class="container">
-      <div class="card">
-        <h2 style="text-align: center; margin-bottom: 2rem;">How It Works</h2>
-        <div class="pipeline">
-          <div class="pipeline-step">
-            <div class="step-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-              </svg>
-            </div>
-            <span class="step-label">Your App</span>
-          </div>
-          <span class="pipeline-arrow">→</span>
-          <div class="pipeline-step">
-            <div class="step-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                <path d="M2 17l10 5 10-5"/>
-              </svg>
-            </div>
-            <span class="step-label">AI Gateway</span>
-          </div>
-          <span class="pipeline-arrow">→</span>
-          <div class="pipeline-step">
-            <div class="step-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="3"/>
-                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-              </svg>
-            </div>
-            <span class="step-label">AI Providers</span>
-          </div>
+    <!-- Features Grid -->
+    <section class="container">
+        <div class="card-grid">
+            <!-- AI Gateway Card -->
+            <a href="/ai-gateway.html" class="card feature-card" style="text-decoration: none;">
+                <div class="icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                        <path d="M2 17l10 5 10-5" />
+                        <path d="M2 12l10 5 10-5" />
+                    </svg>
+                </div>
+                <h3>AI Gateway</h3>
+                <p>Control, cache, and monitor your AI applications. Get analytics, rate limiting, and cost savings for
+                    your LLM calls.</p>
+            </a>
+
+            <!-- Auto RAG Card -->
+            <a href="/auto-rag.html" class="card feature-card" style="text-decoration: none;">
+                <div class="icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="M21 21l-4.35-4.35" />
+                        <path d="M11 8v6" />
+                        <path d="M8 11h6" />
+                    </svg>
+                </div>
+                <h3>Auto RAG</h3>
+                <p>Automatically enhance AI responses with your own data. Index documents and retrieve relevant context
+                    for better answers.</p>
+            </a>
         </div>
-        <p style="text-align: center; max-width: 600px; margin: 2rem auto 0;">
-          Cloudflare sits between your application and AI providers, giving you complete control over your AI traffic with caching, rate limiting, and detailed analytics.
-        </p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Quick Stats -->
-  <section class="container">
-    <div class="analytics-grid" style="max-width: 600px; margin: 0 auto;">
-      <div class="analytics-item">
-        <div class="value">50ms</div>
-        <div class="label">Avg Cache Response</div>
-      </div>
-      <div class="analytics-item">
-        <div class="value">80%</div>
-        <div class="label">Cost Savings</div>
-      </div>
-      <div class="analytics-item">
-        <div class="value">99.9%</div>
-        <div class="label">Uptime SLA</div>
-      </div>
-    </div>
-  </section>
+    <!-- How It Works -->
+    <section class="demo-section">
+        <div class="container">
+            <div class="card">
+                <h2 style="text-align: center; margin-bottom: 2rem;">How It Works</h2>
+                <div class="pipeline">
+                    <div class="pipeline-step">
+                        <div class="step-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </div>
+                        <span class="step-label">Your App</span>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-step">
+                        <div class="step-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                <path d="M2 17l10 5 10-5" />
+                            </svg>
+                        </div>
+                        <span class="step-label">AI Gateway</span>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-step">
+                        <div class="step-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                            </svg>
+                        </div>
+                        <span class="step-label">AI Providers</span>
+                    </div>
+                </div>
+                <p style="text-align: center; max-width: 600px; margin: 2rem auto 0;">
+                    Cloudflare sits between your application and AI providers, giving you complete control over your AI
+                    traffic with caching, rate limiting, and detailed analytics.
+                </p>
+            </div>
+        </div>
+    </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>Built for demonstration purposes. Not affiliated with Cloudflare Inc.</p>
-      <p style="margin-top: 0.5rem;">
-        <a href="https://developers.cloudflare.com/ai-gateway/" target="_blank">AI Gateway Docs</a>
-        •
-        <a href="https://developers.cloudflare.com/vectorize/" target="_blank">Vectorize Docs</a>
-      </p>
-    </div>
-  </footer>
+    <!-- Quick Stats -->
+    <section class="container">
+        <div class="analytics-grid" style="max-width: 600px; margin: 0 auto;">
+            <div class="analytics-item">
+                <div class="value">50ms</div>
+                <div class="label">Avg Cache Response</div>
+            </div>
+            <div class="analytics-item">
+                <div class="value">80%</div>
+                <div class="label">Cost Savings</div>
+            </div>
+            <div class="analytics-item">
+                <div class="value">99.9%</div>
+                <div class="label">Uptime SLA</div>
+            </div>
+        </div>
+    </section>
 
-  <script type="module" src="/js/main.js"></script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Built for demonstration purposes. Not affiliated with Cloudflare Inc.</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="https://developers.cloudflare.com/ai-gateway/" target="_blank">AI Gateway Docs</a>
+                •
+                <a href="https://developers.cloudflare.com/vectorize/" target="_blank">Vectorize Docs</a>
+            </p>
+        </div>
+    </footer>
+
+    <script type="module" src="/js/main.js"></script>
 </body>
+
 </html>
