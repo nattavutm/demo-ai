@@ -1,0 +1,23 @@
+{
+    "name": "cloudflare-demo",
+    "version": "1.0.0",
+    "description": "Interactive demo showcasing Cloudflare AI Gateway and Auto RAG features",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "deploy": "wrangler pages deploy dist"
+    },
+    "devDependencies": {
+        "vite": "^5.0.0",
+        "wrangler": "^3.0.0"
+    },
+    "keywords": [
+        "cloudflare",
+        "ai-gateway",
+        "rag",
+        "demo"
+    ],
+    "license": "MIT"
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="AI Gateway Demo - Control, cache, and monitor your AI applications with Cloudflare">
+    <title>AI Gateway Demo | Cloudflare Features</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container nav-content">
+            <a href="/" class="nav-logo">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 4L4 10v12l12 6 12-6V10L16 4z" stroke="#F6821F" stroke-width="2" fill="none" />
+                    <path d="M16 10l-6 3v6l6 3 6-3v-6l-6-3z" fill="#F6821F" />
+                </svg>
+                CF Demo
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/ai-gateway.html" class="active">AI Gateway</a></li>
+                <li><a href="/auto-rag.html">Auto RAG</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>AI Gateway</h1>
+            <p>Control, cache, and monitor your AI applications. Get visibility into your AI traffic with analytics,
+                rate limiting, and cost-saving caching.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="demo-section">
+        <div class="container">
+            <div class="demo-container">
+                <!-- Documentation Panel -->
+                <div class="card docs-panel">
+                    <h2>What is AI Gateway?</h2>
+                    <p>AI Gateway sits between your application and AI providers (like OpenAI, Anthropic, or Workers
+                        AI), giving you complete visibility and control over your AI traffic.</p>
+
+                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">Key Features</h3>
+                    <ul class="docs-list">
+                        <li><strong>Caching</strong> - Cache identical requests to reduce costs and latency</li>
+                        <li><strong>Rate Limiting</strong> - Control request rates to prevent abuse</li>
+                        <li><strong>Analytics</strong> - Track usage, costs, and performance</li>
+                        <li><strong>Logging</strong> - Log all requests for debugging and compliance</li>
+                        <li><strong>Fallbacks</strong> - Automatic failover to backup providers</li>
+                    </ul>
+
+                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">Code Example</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>JavaScript</span>
+                            <button onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <pre><code><span class="comment">// Using AI Gateway with OpenAI</span>
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(
+  <span class="string">`https://gateway.ai.cloudflare.com/v1/
+    ${<span class="property">ACCOUNT_ID</span>}/${<span class="property">GATEWAY_ID</span>}/openai/
+    chat/completions`</span>,
+  {
+    <span class="property">method</span>: <span class="string">'POST'</span>,
+    <span class="property">headers</span>: {
+      <span class="string">'Authorization'</span>: <span class="string">`Bearer ${<span class="property">OPENAI_API_KEY</span>}`</span>,
+      <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+    },
+    <span class="property">body</span>: <span class="function">JSON.stringify</span>({
+      <span class="property">model</span>: <span class="string">'gpt-4'</span>,
+      <span class="property">messages</span>: [
+        { <span class="property">role</span>: <span class="string">'user'</span>, <span class="property">content</span>: <span class="string">'Hello!'</span> }
+      ]
+    })
+  }
+);</code></pre>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">Supported Providers</h3>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="btn btn-secondary"
+                            style="padding: 0.5rem 1rem; font-size: 0.875rem; cursor: default;">OpenAI</span>
+                        <span class="btn btn-secondary"
+                            style="padding: 0.5rem 1rem; font-size: 0.875rem; cursor: default;">Anthropic</span>
+                        <span class="btn btn-secondary"
+                            style="padding: 0.5rem 1rem; font-size: 0.875rem; cursor: default;">Workers AI</span>
+                        <span class="btn btn-secondary"
+                            style="padding: 0.5rem 1rem; font-size: 0.875rem; cursor: default;">Azure OpenAI</span>
+                        <span class="btn btn-secondary"
+                            style="padding: 0.5rem 1rem; font-size: 0.875rem; cursor: default;">HuggingFace</span>
+                    </div>
+                </div>
+
+                <!-- Interactive Demo Panel -->
+                <div class="demo-panel">
+                    <div class="demo-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span>AI Gateway Chat Demo</span>
+                    </div>
+                    <div class="demo-body">
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message assistant">
+                                    👋 Hi! I'm a demo AI assistant powered through Cloudflare AI Gateway. Try asking me
+                                    something!
+                                </div>
+                            </div>
+                            <div class="chat-input-container">
+                                <input type="text" class="chat-input" id="chatInput" placeholder="Type a message..."
+                                    autocomplete="off">
+                                <button class="btn btn-primary" id="sendBtn" style="padding: 0.75rem 1.25rem;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="22" y1="2" x2="11" y2="13" />
+                                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Display -->
+                    <div style="padding: 1rem; border-top: 1px solid var(--border-color);">
+                        <h4 style="margin-bottom: 0.75rem; font-size: 0.875rem; color: var(--text-muted);">Request
+                            Analytics</h4>
+                        <div class="analytics-grid" style="grid-template-columns: repeat(3, 1fr);">
+                            <div class="analytics-item" style="padding: 0.75rem;">
+                                <div class="value" id="latencyValue" style="font-size: 1.25rem;">--</div>
+                                <div class="label">Latency</div>
+                            </div>
+                            <div class="analytics-item" style="padding: 0.75rem;">
+                                <div class="value" id="tokensValue" style="font-size: 1.25rem;">--</div>
+                                <div class="label">Tokens</div>
+                            </div>
+                            <div class="analytics-item" style="padding: 0.75rem;">
+                                <div class="value" id="cacheValue" style="font-size: 1.25rem;">--</div>
+                                <div class="label">Cache</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Built for demonstration purposes. Not affiliated with Cloudflare Inc.</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="https://developers.cloudflare.com/ai-gateway/" target="_blank">Official AI Gateway
+                    Documentation →</a>
+            </p>
+        </div>
+    </footer>
+
+    <script type="module" src="/js/ai-gateway.js"></script>
+</body>
+
+</html>
