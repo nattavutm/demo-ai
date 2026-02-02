@@ -6,9 +6,6 @@
 import './main.js';
 
 // DOM Elements
-const apiEndpoint = document.getElementById('apiEndpoint');
-const testApiBtn = document.getElementById('testApiBtn');
-const apiStatus = document.getElementById('apiStatus');
 const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
 const uploadStatus = document.getElementById('uploadStatus');
@@ -28,20 +25,12 @@ const errorMessage = document.getElementById('errorMessage');
 // Pipeline steps
 const steps = ['step-query', 'step-embed', 'step-retrieve', 'step-augment', 'step-generate'];
 
-// Load saved API endpoint
-const savedEndpoint = localStorage.getItem('ragApiEndpoint');
-if (savedEndpoint) {
-    apiEndpoint.value = savedEndpoint;
-}
-
-// Save API endpoint on change
-apiEndpoint.addEventListener('change', () => {
-    localStorage.setItem('ragApiEndpoint', apiEndpoint.value);
-});
+// API Configuration
+const API_URL = 'https://rag-api.nforce-lab.workers.dev';
 
 // Get API base URL
 function getApiUrl() {
-    return apiEndpoint.value.replace(/\/$/, '');
+    return API_URL;
 }
 
 // Show error
@@ -71,33 +60,9 @@ function resetPipeline() {
 }
 
 // Test API connection
-testApiBtn.addEventListener('click', async () => {
-    const url = getApiUrl();
-    if (!url) {
-        apiStatus.textContent = '❌ Enter API URL';
-        apiStatus.style.color = '#ff6b6b';
-        return;
-    }
+// Test API connection - Removed, strictly using hardcoded URL
+// No manual test button needed anymore
 
-    apiStatus.textContent = '⏳ Testing...';
-    apiStatus.style.color = 'var(--text-muted)';
-
-    try {
-        const response = await fetch(`${url}/api/health`);
-        if (response.ok) {
-            apiStatus.textContent = '✅ Connected';
-            apiStatus.style.color = '#27ca40';
-            // Load documents
-            loadDocuments();
-        } else {
-            apiStatus.textContent = '❌ Error ' + response.status;
-            apiStatus.style.color = '#ff6b6b';
-        }
-    } catch (error) {
-        apiStatus.textContent = '❌ Connection failed';
-        apiStatus.style.color = '#ff6b6b';
-    }
-});
 
 // File upload handling
 dropZone.addEventListener('click', () => fileInput.click());
@@ -376,10 +341,8 @@ ragInput.addEventListener('keypress', (e) => {
 });
 
 // Initialize
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
     resetPipeline();
-    // Auto-test if endpoint is saved
-    if (apiEndpoint.value) {
-        testApiBtn.click();
-    }
+    loadDocuments();
 });

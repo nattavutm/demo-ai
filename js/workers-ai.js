@@ -6,9 +6,6 @@
 import './main.js';
 
 // DOM Elements
-const apiEndpoint = document.getElementById('apiEndpoint');
-const testApiBtn = document.getElementById('testApiBtn');
-const apiStatus = document.getElementById('apiStatus');
 const modelSelect = document.getElementById('modelSelect');
 const systemPrompt = document.getElementById('systemPrompt');
 const chatMessages = document.getElementById('chatMessages');
@@ -18,48 +15,18 @@ const sendBtn = document.getElementById('sendBtn');
 // State
 let messageHistory = [];
 
-// Load saved API endpoint
-const savedEndpoint = localStorage.getItem('ragApiEndpoint');
-if (savedEndpoint) {
-    apiEndpoint.value = savedEndpoint;
-}
-
-// Save API endpoint on change
-apiEndpoint.addEventListener('change', () => {
-    localStorage.setItem('ragApiEndpoint', apiEndpoint.value);
-});
+// API Configuration
+const API_URL = 'https://rag-api.nforce-lab.workers.dev';
 
 // Get API base URL
 function getApiUrl() {
-    return apiEndpoint.value.replace(/\/$/, '');
+    return API_URL;
 }
 
-// Test API connection
-testApiBtn.addEventListener('click', async () => {
-    const url = getApiUrl();
-    if (!url) {
-        apiStatus.textContent = '❌ Enter API URL';
-        apiStatus.style.color = '#ff6b6b';
-        return;
-    }
+// Test API connection - Removed, strictly using hardcoded URL
+// No manual test button needed anymore
 
-    apiStatus.textContent = '⏳ Testing...';
-    apiStatus.style.color = 'var(--text-muted)';
 
-    try {
-        const response = await fetch(`${url}/api/health`);
-        if (response.ok) {
-            apiStatus.textContent = '✅ Connected';
-            apiStatus.style.color = '#27ca40';
-        } else {
-            apiStatus.textContent = '❌ Error ' + response.status;
-            apiStatus.style.color = '#ff6b6b';
-        }
-    } catch (error) {
-        apiStatus.textContent = '❌ Connection failed';
-        apiStatus.style.color = '#ff6b6b';
-    }
-});
 
 // Add message to chat UI
 function addMessage(role, text) {
@@ -150,9 +117,4 @@ chatInput.addEventListener('keypress', (e) => {
     }
 });
 
-// Auto-test if endpoint is saved
-document.addEventListener('DOMContentLoaded', () => {
-    if (apiEndpoint.value) {
-        testApiBtn.click();
-    }
-});
+
