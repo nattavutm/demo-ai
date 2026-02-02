@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Request free LLM models on Cloudflare Workers AI">
+    <title>Workers AI Demo | Cloudflare Features</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container nav-content">
+            <a href="/" class="nav-logo">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 4L4 10v12l12 6 12-6V10L16 4z" stroke="#F6821F" stroke-width="2" fill="none" />
+                    <path d="M16 10l-6 3v6l6 3 6-3v-6l-6-3z" fill="#F6821F" />
+                </svg>
+                CF Demo
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/ai-gateway.html">AI Gateway</a></li>
+                <li><a href="/auto-rag.html">Auto RAG</a></li>
+                <li><a href="/workers-ai.html" class="active">Workers AI</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>Workers AI</h1>
+            <p>Run open-source models like Llama 3 on Cloudflare's global network. Serverless inference with zero cold
+                starts.</p>
+        </div>
+    </section>
+
+    <!-- API Configuration -->
+    <section class="container" style="margin-bottom: 1rem;">
+        <div class="card" style="padding: 1rem;">
+            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <label style="font-size: 0.875rem; color: var(--text-muted);">API Endpoint:</label>
+                <input type="text" id="apiEndpoint" class="chat-input" style="flex: 1; min-width: 300px;"
+                    placeholder="https://your-worker.your-subdomain.workers.dev" value="">
+                <button class="btn btn-secondary" id="testApiBtn" style="padding: 0.5rem 1rem;">
+                    Test Connection
+                </button>
+                <span id="apiStatus" style="font-size: 0.875rem;"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="demo-section" style="padding-top: 0;">
+        <div class="container">
+            <div class="demo-container">
+                <!-- Settings Panel -->
+                <div class="card docs-panel">
+                    <h2>⚙️ Settings</h2>
+                    <p>Configure your model parameter.</p>
+
+                    <div style="margin-top: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Model</label>
+                        <select id="modelSelect" class="chat-input" style="width: 100%;">
+                            <option value="@cf/meta/llama-3-8b-instruct">Llama 3 8B Instruct</option>
+                            <option value="@cf/google/gemma-7b-it-lora">Gemma 7B LoRA</option>
+                            <option value="@cf/qwen/qwen1.5-7b-chat-awq">Qwen 1.5 7B Chat</option>
+                            <option value="@cf/tinyllama/tinyllama-1.1b-chat-v1.0">TinyLlama 1.1B</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-top: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">System Prompt</label>
+                        <textarea id="systemPrompt" class="chat-input" rows="5" style="width: 100%; resize: vertical;"
+                            placeholder="You are a helpful assistant...">You are a helpful assistant running on Cloudflare Workers AI.</textarea>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; padding: 1rem; background: var(--bg-glass); border-radius: var(--radius-sm);">
+                        <h3 style="font-size: 0.875rem; margin-bottom: 0.5rem;">About Workers AI</h3>
+                        <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">
+                            Workers AI allows you to run machine learning models, on the Cloudflare network, from your
+                            code. No need to manage infrastructure or GPUs.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Chat Panel -->
+                <div class="demo-panel">
+                    <div class="demo-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span>Chat Demo</span>
+                    </div>
+                    <div class="demo-body">
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message assistant">
+                                    👋 Hi! Pick a model from the left and let's chat. I'm running on Cloudflare Workers
+                                    AI!
+                                </div>
+                            </div>
+                            <div class="chat-input-container">
+                                <input type="text" class="chat-input" id="chatInput" placeholder="Type a message..."
+                                    autocomplete="off">
+                                <button class="btn btn-primary" id="sendBtn" style="padding: 0.75rem 1.25rem;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="22" y1="2" x2="11" y2="13" />
+                                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Built for demonstration purposes. Not affiliated with Cloudflare Inc.</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="https://developers.cloudflare.com/workers-ai/" target="_blank">Workers AI Docs</a>
+            </p>
+        </div>
+    </footer>
+
+    <script type="module" src="/js/workers-ai.js"></script>
+</body>
+
+</html>

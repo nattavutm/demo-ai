@@ -29,6 +29,10 @@ export default {
                 return await handleQuery(request, env, corsHeaders);
             }
 
+            if (url.pathname === '/api/chat' && request.method === 'POST') {
+                return await handleChat(request, env, corsHeaders);
+            }
+
             if (url.pathname === '/api/documents' && request.method === 'GET') {
                 return await handleListDocuments(request, env, corsHeaders);
             }
@@ -52,6 +56,27 @@ export default {
         }
     },
 };
+
+/**
+ * Handle direct chat with Workers AI
+ */
+async function handleChat(request, env, corsHeaders) {
+    const { messages, model = '@cf/meta/llama-3-8b-instruct' } = await request.json();
+
+    if (!messages || !Array.isArray(messages)) {
+        return Response.json({ error: 'Messages array is required' }, { status: 400, headers: corsHeaders });
+    }
+
+    try {
+        const response = await env.AI.run(model, {
+            messages: messages
+        });
+
+        return Response.json(response, { headers: corsHeaders });
+    } catch (error) {
+        return Response.json({ error: error.message }, { status: 500, headers: corsHeaders });
+    }
+}
 
 /**
  * Handle document upload

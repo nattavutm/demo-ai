@@ -14,4 +14,4 @@ index_name = "rag-index"
 # KV for document metadata
 [[kv_namespaces]]
 binding = "DOC_METADATA"
-id = "YOUR_KV_NAMESPACE_ID"
+id = "5bdcabaed6d1413298fab4a3ee84dd2a"
