@@ -12,6 +12,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 
@@ -129,7 +134,7 @@
                 <!-- Knowledge Base Panel -->
                 <div class="card docs-panel">
                     <h2>📚 Knowledge Base</h2>
-                    <p>Upload documents to build your knowledge base. Supported formats: .txt, .md</p>
+                    <p>Upload documents to build your knowledge base. Supported formats: .txt, .md, .pdf</p>
 
                     <!-- File Upload -->
                     <div style="margin: 1.5rem 0;">
@@ -150,7 +155,7 @@
                             <p style="color: var(--text-muted); margin: 0;">
                                 Drag & drop files here or <span style="color: var(--cf-orange);">click to browse</span>
                             </p>
-                            <input type="file" id="fileInput" accept=".txt,.md" multiple style="display: none;">
+                            <input type="file" id="fileInput" accept=".txt,.md,.pdf" multiple style="display: none;">
                         </div>
                     </div>
 

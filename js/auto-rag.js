@@ -140,8 +140,8 @@ async function uploadFile(file) {
     }
 
     // Check file type
-    if (!file.name.endsWith('.txt') && !file.name.endsWith('.md')) {
-        showError('Only .txt and .md files are supported');
+    if (!file.name.endsWith('.txt') && !file.name.endsWith('.md') && !file.name.endsWith('.pdf')) {
+        showError('Only .txt, .md, and .pdf files are supported');
         return;
     }
 
@@ -149,8 +149,19 @@ async function uploadFile(file) {
     uploadStatus.style.display = 'flex';
 
     try {
+        let fileToUpload = file;
+
+        // If PDF, extract text first
+        if (file.name.endsWith('.pdf')) {
+            loadingText.textContent = 'Extracting text from PDF...';
+            const text = await extractTextFromPDF(file);
+            // Create a new blob with extracted text
+            const blob = new Blob([text], { type: 'text/plain' });
+            fileToUpload = new File([blob], file.name, { type: 'text/plain' });
+        }
+
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('file', fileToUpload);
 
         const response = await fetch(`${url}/api/upload`, {
             method: 'POST',
@@ -169,7 +180,24 @@ async function uploadFile(file) {
         showError('Upload failed: ' + error.message);
     } finally {
         uploadStatus.style.display = 'none';
+        loadingText.textContent = 'Processing query...'; // Reset text
     }
+}
+
+// Extract text from PDF using PDF.js
+async function extractTextFromPDF(file) {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    let fullText = '';
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map(item => item.str).join(' ');
+        fullText += pageText + '\n\n';
+    }
+
+    return fullText;
 }
 
 // Load documents from API
