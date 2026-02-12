@@ -79,6 +79,17 @@ async function handleChat(request, env, corsHeaders) {
 
         return Response.json(response, { headers: corsHeaders });
     } catch (error) {
+        console.error('AI Chat Error:', error);
+
+        // If the error message indicates a firewall block, return 403
+        // Cloudflare AI Gateway returns 403 when blocked
+        if (error.message.includes('blocked') || error.message.includes('Firewall')) {
+            return Response.json(
+                { error: 'Request blocked by Cloudflare Firewall for AI', details: error.message },
+                { status: 403, headers: corsHeaders }
+            );
+        }
+
         return Response.json({ error: error.message }, { status: 500, headers: corsHeaders });
     }
 }
@@ -202,37 +213,47 @@ async function handleQuery(request, env, corsHeaders) {
         .map((c, i) => `[Document ${i + 1}: ${c.fileName}]\n${c.text}`)
         .join('\n\n');
 
-    // Generate response using LLM with RAG context
-    const llmResponse = await env.AI.run('@cf/meta/llama-2-7b-chat-int8', {
-        messages: [
-            {
-                role: 'system',
-                content: `You are a helpful assistant that answers questions based on the provided context. 
+    try {
+        // Generate response using LLM with RAG context
+        const llmResponse = await env.AI.run('@cf/meta/llama-2-7b-chat-int8', {
+            messages: [
+                {
+                    role: 'system',
+                    content: `You are a helpful assistant that answers questions based on the provided context. 
 Use the following context to answer the user's question. 
 If the context doesn't contain relevant information, say so.
 Always cite which document the information came from.
 
 Context:
 ${contextString}`
-            },
-            {
-                role: 'user',
-                content: query
+                },
+                {
+                    role: 'user',
+                    content: query
+                }
+            ],
+            max_tokens: 500
+        }, {
+            gateway: {
+                id: 'ai-demo',
+                skipCache: false
             }
-        ],
-        max_tokens: 500
-    }, {
-        gateway: {
-            id: 'ai-demo',
-            skipCache: false
-        }
-    });
+        });
 
-    return Response.json({
-        query: query,
-        response: llmResponse.response,
-        context: contextChunks,
-    }, { headers: corsHeaders });
+        return Response.json({
+            query: query,
+            response: llmResponse.response,
+            context: contextChunks,
+        }, { headers: corsHeaders });
+    } catch (error) {
+        if (error.message.includes('blocked') || error.message.includes('Firewall')) {
+            return Response.json(
+                { error: 'Request blocked by Cloudflare Firewall for AI', details: error.message },
+                { status: 403, headers: corsHeaders }
+            );
+        }
+        throw error;
+    }
 }
 
 /**
