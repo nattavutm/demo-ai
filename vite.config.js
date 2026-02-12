@@ -7,6 +7,7 @@ export default defineConfig({
             input: {
                 main: resolve(__dirname, 'index.html'),
                 'ai-gateway': resolve(__dirname, 'ai-gateway.html'),
+                'ai-firewall': resolve(__dirname, 'ai-firewall.html'),
                 'auto-rag': resolve(__dirname, 'auto-rag.html'),
                 'workers-ai': resolve(__dirname, 'workers-ai.html'),
             },
